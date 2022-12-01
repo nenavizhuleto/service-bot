@@ -1,0 +1,90 @@
+{
+    "roles": {
+        "admin": "Администратора",
+        "employee": "Работник",
+        "customer": "Клиент"
+    },
+    "statuses": {
+        "new": "Новый",
+        "progress": "В работе"
+    },
+    "welcome": {
+        "text": {
+            "registered": "Вы: $role\n\nИспользуйте клавиатуру ниже для навигации",
+            "unregistered": "Добро пожаловать!\n\nИспользуйте команду /register, чтобы завершить регистрацию и начать пользоваться нашими услугами."
+        },
+        "keyboard": {
+            "employee": "Работник",
+            "customer": "Клиент"
+        }
+    },
+    "back": {
+        "keyboard": {
+            "back": "<="
+        }
+    },
+    "menu": {
+        "admin": {
+            "text": {},
+            "keyboard": {
+                "settings": "Параметры",
+                "services": "Услуги"
+            }
+        },
+        "customer": {
+            "text": {},
+            "keyboard": {
+                "orders": "Заказы",
+                "new_order": "Новый заказ"
+            }
+        },
+        "employee": {
+            "text": {},
+            "keyboard": {
+                "customers": "Клиенты",
+                "orders": "Заказы"
+            }
+        }
+    },
+    "orders": {
+        "admin": {
+            "text": {},
+            "keyboard": {}
+        },
+        "customer": {
+            "my_orders": {
+                "text": {
+                    "orders": "Список Ваших заказов",
+                    "mo": "Ваш заказ:\n\nТип: $order_type\n\nОписание: $order_description\n\n"
+                },
+                "keyboard": {
+                    "orders": "Заказы",
+                    "new_order": "Новый заказ"
+                }
+            },
+            "new_order": {
+                "text": {
+                    "new_order": "Ваш заказ:\n\nТип: $order_type\n\nОписание: $order_description\n\n",
+                    "type": "Пожалуйста, укажите тип заказа",
+                    "photo": "Пожалуйста, сделайте фото техники",
+                    "description": "Пожалуйста, опишите вашу проблему",
+                    "invalid": "Для подтверждения заказа необходимо заполнить все поля!",
+                    "confirm": "Заказ успешно создан!"
+                },
+                "keyboard": {
+                    "type": "Тип",
+                    "photo": "Фото",
+                    "description": "Описание",
+                    "confirm": "Подтвердить"
+                }
+            }
+        },
+        "employee": {
+            "text": {},
+            "keyboard": {
+                "customers": "Клиентов",
+                "orders": "Заказы"
+            }
+        }
+    }
+}

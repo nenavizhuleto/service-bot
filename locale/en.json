@@ -1,0 +1,90 @@
+{
+    "roles": {
+        "admin": "Admin",
+        "employee": "Employee",
+        "customer": "Customer"
+    },
+    "statuses": {
+        "new": "New",
+        "progress": "In progress"
+    },
+    "welcome": {
+        "text": {
+            "registered": "You are: $role\n\nUse keyboard below to navigate",
+            "unregistered": "Welcome!\n\nUse /register command to complete the registration and start to utilize our services."
+        },
+        "keyboard": {
+            "employee": "Employee",
+            "customer": "Customer"
+        }
+    },
+    "back": {
+        "keyboard": {
+            "back": "<="
+        }
+    },
+    "menu": {
+        "admin": {
+            "text": {},
+            "keyboard": {
+                "settings": "Settings",
+                "services": "Services"
+            }
+        },
+        "customer": {
+            "text": {},
+            "keyboard": {
+                "orders": "Orders",
+                "new_order": "New Order"
+            }
+        },
+        "employee": {
+            "text": {},
+            "keyboard": {
+                "customers": "Customers",
+                "orders": "Orders"
+            }
+        }
+    },
+    "orders": {
+        "admin": {
+            "text": {},
+            "keyboard": {}
+        },
+        "customer": {
+            "my_orders": {
+                "text": {
+                    "orders": "List of your orders",
+                    "mo": "Your order:\n\nType: $order_type\n\nDescription: $order_description\n\n"
+                },
+                "keyboard": {
+                    "orders": "Orders",
+                    "new_order": "New Order"
+                }
+            },
+            "new_order": {
+                "text": {
+                    "new_order": "Your order:\n\nType: $order_type\n\nDescription: $order_description\n\n",
+                    "type": "Please provide type of the order",
+                    "photo": "Please take photo of the device",
+                    "description": "Please describe your problem",
+                    "invalid": "You need to provide all information in respect to make an order!",
+                    "confirm": "Order is created successfully!"
+                },
+                "keyboard": {
+                    "type": "Type",
+                    "photo": "Photo",
+                    "description": "Description",
+                    "confirm": "Confirm"
+                }
+            }
+        },
+        "employee": {
+            "text": {},
+            "keyboard": {
+                "customers": "Customers",
+                "orders": "Orders"
+            }
+        }
+    }
+}
