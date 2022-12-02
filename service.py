@@ -5,6 +5,10 @@ import keyboards
 from __struct import Struct
 from session import SessionManager, Session
 
+from controllers.customer import CustomerController
+from controllers.admin import AdminController
+from controllers.employee import EmployeeController
+
 
 class Db():
 
@@ -84,6 +88,12 @@ class Service():
         self.db = Db(config.get('MONGO_CONNECTION_STRING'), config.get('MONGO_DB_NAME'))
         self.sm = SessionManager(self.api, self.db, language=config.get('LOCALE'))
 
+
+        # Controllers
+        self.admin_controller = AdminController(self)
+        self.customer_controller = CustomerController(self)
+        self.employee_controller = EmployeeController(self)
+
         # Callback registrations
         self.api.register_message_handler(self.welcome, commands=['start'])
         self.api.register_message_handler(self.register, commands=['register'])
@@ -96,6 +106,9 @@ class Service():
 
 
     def change_locale(self, message: types.Message):
+        """
+        Changes session language
+        """
         session = self.sm.get(message.from_user)
         match message.text:
             case "/en":
@@ -104,10 +117,20 @@ class Service():
                 self.sm.change_session_locale(session, "RU")
         self.welcome(message)
     
-    def exists(self, entity, filter):
+    def exists(self, entity: str, filter: dict):
+        """
+        Checks if entity exists in database
+
+        :return: True if exists
+        :return: False if doesn't
+        """
         return False if self.db.get_one(entity, filter) is None else True
 
-    def handle_text(self, message):
+    def handle_text(self, message: types.Message):
+        """
+        Handles unrecognized input from user
+        :func: sends previous message sent to user
+        """
         session = self.sm.get(message.from_user)
         session.send_last_message()
 
@@ -169,6 +192,7 @@ class Service():
 
     def callback(self, call: types.CallbackQuery):
         session = self.sm.get(call.from_user)
+        print(call.data)
 
         if call.data == 'back' or session is None:
             session = self.sm.new(call.message.chat, call.from_user)
@@ -185,83 +209,11 @@ class Service():
 
         match session.user.role:
             case 'admin':
-                self.handle_admin(call, session)
+                self.admin_controller.handle(session, call)
             case 'employee':
-                self.handle_employee(call, session)
+                self.employee_controller.handle(session, call)
             case 'customer':
-                self.handle_customer(call, session)
-
-    def handle_admin(self, call, session):
-        pass
-
-    def handle_employee(self, call, session):
-        pass
-
-    def handle_customer(self, call, session: Session):
-        action = call.data
-        user = session.user
-
-
-        if session.get_state() == self.STATES[0]:
-            args = action.split('_')
-            match action:
-                case 'new_order':
-                    text = vars(session.locale.orders.customer.new_order.text)
-                    if session.get_data('order') is None:
-                        order = {
-                            "customer_id": session.user.id,
-                            "type": '',
-                            "photo": None,
-                            "description": '',
-                            "status": 'new'
-                        }
-                        session.set_data('order', order)
-
-                    session.edit_message(text[action], session.locale.orders.customer.new_order.keyboard)
-                    session.set_state(self.STATES[1])
-                    
-                case 'orders':
-                    text = vars(session.locale.orders.customer.my_orders.text)
-                    orders = self.db.get_orders_by_user(user)
-                    orders_msg = f'\nTotal: {len(orders)}\nID\t\tType\t\tStatus\t\t\n\n'
-                    orders_markup = {}
-                    for order in orders:
-                        orders_markup[f'{order._id}\t\t{order.type}\t\t{session.locale.statuses[order.status]}'] = f'mo_{order._id}'
-
-                    orders_markup['<='] = 'back'
-                    
-                    session.edit_message(text[action] + orders_msg, keyboard=keyboards.make_kb(orders_markup))
-                
-                case _:
-                    match args[0]:
-                        case 'mo':
-                            print(args)
-                            order = self.db.get_order_by_id(args[1])
-                            session.set_data('order', order.__dict__)
-                            session.send_message(text[args[0]], keyboard=keyboards.make_kb({"Decline": f"mo_decline_{order._id}", "<=": 'back'}), photo=order.photo)
-
-
-        elif session.get_state() == self.STATES[1]:
-            text = vars(session.locale.orders.customer.new_order.text)
-
-            if action == 'confirm':
-                order = session.get_data('order')
-                if len(order['type']) == 0 or len(order['photo']) == 0 or len(order['description']) == 0:
-                    session.edit_message(text['no_invalid'], update=False)
-                    session.send_last_message()
-                    return
-
-                self.db.save_order(order)
-                session.edit_message(text[action], session.locale.menu.customer.keyboard)
-                session.set_state(self.STATES[0])
-                session.clean_data()
-                return
-
-
-
-            session.set_data('input_key', action)
-            session.edit_message(text[action], update=False)
-
+                self.customer_controller.handle(session, call)
 
 
     def start(self):

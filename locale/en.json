@@ -77,6 +77,13 @@
                     "description": "Description",
                     "confirm": "Confirm"
                 }
+            },
+            "order": {
+                "text": {},
+                "keyboard": {
+                    "decline": "Decline",
+                    "back": "<="
+                }
             }
         },
         "employee": {

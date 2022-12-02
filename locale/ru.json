@@ -77,6 +77,13 @@
                     "description": "Описание",
                     "confirm": "Подтвердить"
                 }
+            },
+            "order": {
+                "text": {},
+                "keyboard": {
+                    "decline": "Отменить",
+                    "back": "<="
+                }
             }
         },
         "employee": {
