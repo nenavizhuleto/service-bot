@@ -40,7 +40,7 @@ class CustomerController(Controller):
         text = vars(session.locale.orders.customer.new_order.text)
         if session.get_data('order') is None:
             order = {
-                "customer_id": session.user.id,
+                "customer_id": str(session.user.id),
                 "type": '',
                 "photo": None,
                 "description": '',

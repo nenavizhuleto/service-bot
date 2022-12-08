@@ -6,7 +6,8 @@
     },
     "statuses": {
         "new": "New",
-        "progress": "In progress"
+        "progress": "In progress",
+        "declined": "Declined"
     },
     "welcome": {
         "text": {

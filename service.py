@@ -1,7 +1,6 @@
 from telebot import TeleBot, types
 from mongo import Mongo
 from bson.objectid import ObjectId
-import keyboards
 from __struct import Struct
 from session import SessionManager, Session
 
@@ -32,7 +31,7 @@ class Db():
     def save_user(self, user: types.User, role, language):
         users = self.api['users']
         user_document = {
-            "id": user.id,
+            "id": str(user.id),
             "username": user.username,
             "fullname": user.full_name,
             "role": role,
@@ -69,7 +68,7 @@ class Db():
         return None if data is None else Struct(**data)
 
     def get_user(self, user: types.User):
-        user = self.api['users'].find_one({"id": user.id})
+        user = self.api['users'].find_one({"id": str(user.id)})
         return self.check(user)
 
     def get_one(self, collection, filter):
